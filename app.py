@@ -11,17 +11,21 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import re
 
-# --- Download NLTK assets ---
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+# --- Download NLTK assets if not already present ---
+@st.cache_resource
+def download_nltk_data():
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    nltk.download('wordnet')
+    nltk.download('omw-1.4')
 
+download_nltk_data()
+
+# --- Initialize ---
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
 st.title("🏷️ AutoTagger: Suggest Blog Tags by URL")
-
 url = st.text_input("Paste your blogpost URL:")
 
 # --- Clean tag helper ---
