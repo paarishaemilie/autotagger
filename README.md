@@ -42,7 +42,7 @@ AutoTagger solves a common content marketing pain point: choosing effective tags
 ## 🚀 Live App
 
 You can try the app here:  
-👉 [https://autotaggerforblog.streamlit.app)
+👉 https://autotaggerforblog.streamlit.app
 
 ## 📦 Installation
 
