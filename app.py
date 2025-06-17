@@ -10,14 +10,19 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
+import os
 
-# --- Download NLTK assets if not already present ---
+# --- Setup NLTK Download Directory ---
 @st.cache_resource
 def download_nltk_data():
-    nltk.download('punkt')
-    nltk.download('stopwords')
-    nltk.download('wordnet')
-    nltk.download('omw-1.4')
+    nltk_data_path = os.path.expanduser('~/.nltk_data')
+    os.makedirs(nltk_data_path, exist_ok=True)
+    nltk.data.path.append(nltk_data_path)
+
+    nltk.download('punkt', download_dir=nltk_data_path)
+    nltk.download('stopwords', download_dir=nltk_data_path)
+    nltk.download('wordnet', download_dir=nltk_data_path)
+    nltk.download('omw-1.4', download_dir=nltk_data_path)
 
 download_nltk_data()
 
@@ -31,8 +36,8 @@ url = st.text_input("Paste your blogpost URL:")
 # --- Clean tag helper ---
 def clean_tag(tag):
     tag = tag.lower()
-    tag = re.sub(r'[^\w\s-]', '', tag)  # remove special chars
-    tag = re.sub(r'[\u200b\u00a0–—]+', '', tag)  # remove invisible chars/dashes
+    tag = re.sub(r'[^\w\s-]', '', tag)
+    tag = re.sub(r'[\u200b\u00a0–—]+', '', tag)
     tag = tag.strip("-—– ").strip()
     return tag
 
@@ -47,7 +52,7 @@ def lemmatize_and_dedup_extended(tag_list, limit=10):
         lemma = " ".join([lemmatizer.lemmatize(w) for w in cleaned.split()])
         if lemma not in seen:
             seen.add(lemma)
-            final.append((cleaned, lemma))  # (display, logic)
+            final.append((cleaned, lemma))
         if len(final) == limit:
             break
     return final
