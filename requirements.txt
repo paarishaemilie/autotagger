@@ -1,0 +1,12 @@
+streamlit
+beautifulsoup4
+requests
+nltk
+rake-nltk
+keybert
+sentence-transformers
+scikit-learn
+wordcloud
+matplotlib
+numpy
+pandas
