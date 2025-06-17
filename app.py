@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import nltk
+import os
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from rake_nltk import Rake
@@ -10,21 +11,9 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
-import os
 
-# --- Setup NLTK Download Directory ---
-@st.cache_resource
-def download_nltk_data():
-    nltk_data_path = os.path.expanduser('~/.nltk_data')
-    os.makedirs(nltk_data_path, exist_ok=True)
-    nltk.data.path.append(nltk_data_path)
-
-    nltk.download('punkt', download_dir=nltk_data_path)
-    nltk.download('stopwords', download_dir=nltk_data_path)
-    nltk.download('wordnet', download_dir=nltk_data_path)
-    nltk.download('omw-1.4', download_dir=nltk_data_path)
-
-download_nltk_data()
+# --- Point NLTK to local nltk_data folder ---
+nltk.data.path.append(os.path.join(os.path.dirname(__file__), 'nltk_data'))
 
 # --- Initialize ---
 stop_words = set(stopwords.words('english'))
